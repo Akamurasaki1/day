@@ -1,0 +1,93 @@
+<html lang="ja">
+	<head>
+		<meta charset="utf-8"/>
+		<link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css"/>
+		<script defer src="https://pyscript.net/latest/pyscript.js"></script>
+	</head>
+	<body>
+		<py-script>
+			print("あなたの生年月日は？")
+			Y_0,M_0,D_0=input(),input(),input()
+			print("今日は西暦何年何月何日？")
+			Y_n,M_n,D_n=input(),input(),input()
+			itemy=[] #生きている時間にまるごと含まれる年
+			for i in range (1,(int(Y_n)-int(Y_0))):
+			  itemy.append(int(Y_0)+i)
+			  print(itemy)
+			zennbuy=[] #生きている時間をまるごと含む年
+			for i in range (0,(int(Y_n)-int(Y_0)+1)):
+			  zennbuy.append(int(Y_0)+i)
+			  print(zennbuy)
+			def uruuy(years): #うるう年の判定
+			  uruuy=[]
+			  for year in (years):
+			    if year%4==0:
+			      uruuy.append(year)
+			      if year%100==0:
+			        del uruuy[-1]
+			        if year%400==0:
+			          uruuy.append(year)
+			    else:
+			      pass
+			    continue
+			  return uruuy
+			print(uruuy(itemy))
+			print(uruuy(zennbuy))
+			def yD(years):
+			  D=0
+			  for year in (years):
+			    if year in uruuy(years):
+			      D+=366
+			    else:
+			      D+=365
+			      continue
+			  return D
+			print(yD(itemy)) #生きている時間に完全に含まれる年の日数
+			umaretam=[] #誕生年で生きている時間に完全に含まれる月
+			for k in range (int(M_0),12):
+			  umaretam.append(1+k)
+			  print(umaretam)
+			imam=[] #今年のうち既に過ぎた時間に完全に含まれる月
+			for j in range (0,int(M_n)-1):
+			  imam.append(1+j)
+			  print(imam)
+			def mD(years,months): #誕生年及び今年について生きている時間に完全に含まれる月の日数
+			  D=0
+			  for month in (months):
+			    if int(month)==1 or int(month)==3 or int(month)==5 or int(month)==7 or int(month)==8 or int(month)==10 or int(month)==12:
+			      D+=31
+			    if int(month)==4 or int(month)==6 or int(month)==9 or int(month)==11:
+			        D+=30
+			    if int(month)==2:
+			      if int(years)in uruuy(zennbuy):
+			        D+=29
+			      else:
+			        D+=28
+			  return D
+			print(mD(Y_0,umaretam))
+			print(mD(Y_n,imam))
+			def dD(years): #誕生年及び今年について、日単位の端数の日数
+			  D=0
+			  for year in (years):
+			    if int(years)==int(Y_0):
+			      if int(M_0)==1 or int(M_0)==3 or int(M_0)==5 or int(M_0)==7 or int(M_0)==8 or int(M_0)==10 or int(M_0)==12:
+			        D+=31-int(D_0)
+			      if int(M_0)==4 or int(M_0)==6 or int(M_0)==9 or int(M_0)==11:
+			          D+=30-int(D_0)
+			      if int(M_0)==2:
+			        if Y_0 in uruuy(zennbuy):
+			          D+=29-int(D_0)
+			        else:
+			          D+=28-int(D_0)
+			    if int(years)==int(Y_n):
+			      D+=int(D_n)
+			    return D
+			print(dD(Y_0))
+			print(dD(Y_n))
+			#display("あなたの生年月日は"+str(Y_0)+"年"+str(M_0)+"月"+str(D_0)+"日、今日は",Y_n,"年",M_n,"月",D_n,"日なので")
+			display(f'あなたの生年月日は{Y_0}年{M_0}月{D_0}日、今日は{Y_n}年{M_n}月{D_n}日なので')
+			display(f'あなたが生まれてから{yD(itemy)+mD(Y_0,umaretam)+mD(Y_n,imam)+dD(Y_0)+dD(Y_n)}日が経ちました。')
+			#display(str(Y_0)+"あいうえお")
+			</py-script>
+	</body>
+</html>
